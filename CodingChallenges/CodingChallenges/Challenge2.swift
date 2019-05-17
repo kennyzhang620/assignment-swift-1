@@ -15,19 +15,17 @@ class Challenge2: UIViewController {
 
         let teststring = "abcdcba"; // from 0 to (string.count - 1) (it displays from 1 onward)
         
-        func palindromedetector(in string: String) -> Bool {  // example is radar
+        func isPalindrome (in string: String) -> Bool {  // example is radar
             var reversedString: String = "";
             
             for i in 0...(string.count - 1) {
                 reversedString.append(string[string.index(string.startIndex, offsetBy: (string.count - 1) - i)])
             }
-            if (string == reversedString) {
-                print("It is a Palindrome!");
-            }
             return (string == reversedString)
         }
         
-        palindromedetector(in: teststring);
+        print(isPalindrome(in: teststring));
+        // prints out true
     }
 
     override func didReceiveMemoryWarning() {
