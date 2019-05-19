@@ -11,7 +11,6 @@ import UIKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var searchBarInput: UISearchBar!
     
     var imageData = [sharedVars.imageInformation()]
@@ -30,6 +29,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         imageData.append(sharedVars.imageInformation.init(name: "KBencher 3D Testing App (2017)", description: "360STUDIOS (Kenny Zhang)", dateString: "August 19, 2018", imageSource: "360STUDIOSIntro.png"))
         imageData.append(sharedVars.imageInformation.init(name: "Simon Fraser University", description: "goSFU", dateString: "April 28, 2019", imageSource: "SFUimage.png"))
         imageData.append(sharedVars.imageInformation.init(name: "3D GFX Logo", description: "A representation of GFX/SFX in KB8", dateString: "July 7, 2018", imageSource: "GFXIcon.png"))
+        // loaded information to display
         
         sharedVars.shared.imageData = imageData // allows data transfer between screens
     }
@@ -42,7 +42,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
-        return imageData.count //struct.count
+        return imageData.count //struct.count in natural numbers
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,7 +53,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.imageDescription.text = imageData[indexPath.row].description
         cell.imageSource.image = UIImage(named: imageData[indexPath.row].imageSource)
         
-        // Configure the cell...
+        // Configures the cell and links it to the different properties of the shared struct
         
         return cell
     }
@@ -61,7 +61,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if (searchText != "") {
             let filteredText = sharedVars.shared.imageData.filter({$0.name.localizedCaseInsensitiveContains(searchText)})
-            
+            // the filterText variant of imageData is the user-filtered version of itself, used for search results.
             imageData = filteredText
         }
         else {
@@ -72,8 +72,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
         sharedVars.shared.selectedImageString = imageData[indexPath.row].imageSource
+        // stores in the shared vars for access in the second screen.
     }
     
 }

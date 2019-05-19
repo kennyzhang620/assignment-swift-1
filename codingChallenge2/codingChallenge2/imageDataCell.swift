@@ -9,14 +9,9 @@
 import UIKit
 
 class imageDataCell: UITableViewCell {
-
-  
+// variables link to custom tableview cell
     @IBOutlet weak var imageName: UILabel!
     @IBOutlet weak var imageDescription: UILabel!
-    
     @IBOutlet weak var imageDateString: UILabel!
-    
     @IBOutlet weak var imageSource: UIImageView!
-    
-    
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 public class sharedVars {
+    // permits data to be shared from one class to another and accessed from one central location
     
     public struct imageInformation {
         public var name: String = "name";

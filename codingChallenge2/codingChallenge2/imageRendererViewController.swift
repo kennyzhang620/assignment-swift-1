@@ -15,7 +15,7 @@ class imageRendererViewController: UIViewController {
         super.viewDidLoad()
         
         imageView.image = UIImage(named: sharedVars.shared.selectedImageString)
-        // Do any additional setup after loading the view.
+        // renders image stored in shared variables from selection
     }
 
     override func didReceiveMemoryWarning() {
