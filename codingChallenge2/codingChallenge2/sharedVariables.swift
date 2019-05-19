@@ -13,8 +13,10 @@ public class sharedVars {
         public var name: String = "name";
         public var description: String = "description";
         public var dateString: String = "date";
-        public var imageSource: String = "Group 2.1.png";
+        public var imageSource: String = "remindme.png";
     }
+    
+    public var selectedImageString = "";
     
     public var imageData = [imageInformation()]
     public static let shared = sharedVars();

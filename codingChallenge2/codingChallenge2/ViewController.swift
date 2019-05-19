@@ -21,9 +21,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         tableView.delegate = self
         tableView.dataSource = self
-        // Do any additional setup after loading the view, typically from a nib.
+        searchBarInput.delegate = self
+        // since it is a custom tableviee setup, much of the data source is fed from itself
         
-        imageData = sharedVars.shared.imageData
+        imageData.removeAll() //clears the default values and prepares to replace with actual info.
+        imageData.append(sharedVars.imageInformation.init(name: "ReminderMe", description: "Reminder Onboarding Image", dateString: "April 28, 2019", imageSource: "remindme.png"))
+        imageData.append(sharedVars.imageInformation.init(name: "IDK logo", description: "This is IDK", dateString: "June 7, 2019", imageSource: "Group 2.1.png"))
+        imageData.append(sharedVars.imageInformation.init(name: "KBencher 3D Testing App (2017)", description: "360STUDIOS (Kenny Zhang)", dateString: "August 19, 2018", imageSource: "360STUDIOSIntro.png"))
+        imageData.append(sharedVars.imageInformation.init(name: "Simon Fraser University", description: "goSFU", dateString: "April 28, 2019", imageSource: "SFUimage.png"))
+        imageData.append(sharedVars.imageInformation.init(name: "3D GFX Logo", description: "A representation of GFX/SFX in KB8", dateString: "July 7, 2018", imageSource: "GFXIcon.png"))
+        
+        sharedVars.shared.imageData = imageData // allows data transfer between screens
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,5 +57,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         return cell
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if (searchText != "") {
+            let filteredText = sharedVars.shared.imageData.filter({$0.name.localizedCaseInsensitiveContains(searchText)})
+            
+            imageData = filteredText
+        }
+        else {
+        imageData = sharedVars.shared.imageData
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        sharedVars.shared.selectedImageString = imageData[indexPath.row].imageSource
+    }
+    
 }
 
