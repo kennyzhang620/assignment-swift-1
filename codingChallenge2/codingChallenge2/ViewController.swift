@@ -8,8 +8,55 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        
+        return imageData.count //returns in natural numbers for number of instances
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:imageDataCell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! imageDataCell
+        
+        cell.imageName.text = imageData[indexPath.row].name
+        cell.imageDateString.text = imageData[indexPath.row].dateString
+        cell.imageDescription.text = imageData[indexPath.row].description
+        cell.imageSource.image = UIImage(named: imageData[indexPath.row].imageSource)
+        
+        // Configures the cell and links it to the different properties of the shared struct
+        
+        return cell
+    }
+    
+}
 
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        sharedVars.shared.selectedImageString = imageData[indexPath.row].imageSource
+        // stores in the shared vars for access in the second screen.
+    }
+}
+
+
+extension ViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if (searchText != "") {
+            let filteredText = sharedVars.shared.imageData.filter({$0.name.localizedCaseInsensitiveContains(searchText)})
+            // the filterText variant of imageData is the user-filtered version of itself, used for search results.
+            imageData = filteredText
+        }
+        else {
+            imageData = sharedVars.shared.imageData
+        }
+        
+        tableView.reloadData()
+    }
+    
+}
+
+class ViewController: UIViewController {
+
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBarInput: UISearchBar!
     
@@ -34,47 +81,5 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         sharedVars.shared.imageData = imageData // allows data transfer between screens
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        
-        return imageData.count //struct.count in natural numbers
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:imageDataCell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! imageDataCell
-        
-        cell.imageName.text = imageData[indexPath.row].name
-        cell.imageDateString.text = imageData[indexPath.row].dateString
-        cell.imageDescription.text = imageData[indexPath.row].description
-        cell.imageSource.image = UIImage(named: imageData[indexPath.row].imageSource)
-        
-        // Configures the cell and links it to the different properties of the shared struct
-        
-        return cell
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if (searchText != "") {
-            let filteredText = sharedVars.shared.imageData.filter({$0.name.localizedCaseInsensitiveContains(searchText)})
-            // the filterText variant of imageData is the user-filtered version of itself, used for search results.
-            imageData = filteredText
-        }
-        else {
-        imageData = sharedVars.shared.imageData
-        }
-        
-        tableView.reloadData()
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        sharedVars.shared.selectedImageString = imageData[indexPath.row].imageSource
-        // stores in the shared vars for access in the second screen.
-    }
-    
 }
 
